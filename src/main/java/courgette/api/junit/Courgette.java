@@ -33,7 +33,12 @@ public class Courgette extends ParentRunner<FeatureRunner> {
         classLoader = clazz.getClassLoader();
 
         final CourgetteOptions courgetteOptions = getCourgetteOptions(clazz);
-        courgetteProperties = new CourgetteProperties(courgetteOptions, createSessionId(), courgetteOptions.threads());
+        String threadsStr = System.getenv("COURGETTE_THREADS");
+        int threads = courgetteOptions.threads();
+        if(threadsStr != null && !threadsStr.isEmpty()) {
+            threads = Integer.parseInt(threadsStr);
+        }
+        courgetteProperties = new CourgetteProperties(courgetteOptions, createSessionId(), threads);
 
         final CourgetteFeatureLoader courgetteFeatureLoader = new CourgetteFeatureLoader(courgetteProperties);
         cucumberFeatures = courgetteFeatureLoader.getCucumberFeatures();

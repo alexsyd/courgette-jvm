@@ -32,6 +32,7 @@ public class CourgetteFeatureRunner {
 
             final List<String> commands = new ArrayList<>();
             commands.add("java");
+            commands.add(getCourgetteOps());
             commands.add("-cp");
             commands.add("\"" + classpath + "\"");
             systemProperties.forEach(commands::add);
@@ -45,6 +46,11 @@ public class CourgetteFeatureRunner {
             e.printStackTrace();
         }
         return process != null ? process.exitValue() : -1;
+    }
+
+    private String getCourgetteOps() {
+        final String courgette_ops = System.getenv("COURGETTE_OPS");
+        return courgette_ops;
     }
 
     static {
